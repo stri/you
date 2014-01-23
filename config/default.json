@@ -1,0 +1,51 @@
+ {
+      // 环境的服务目录
+      "root": "",
+      // 环境服务的端口
+      "port": 80,
+      // JS包的合并方式（支持扩展），默认支持如下:
+      // default: 没有包的合并
+      // projs: 符合module/1.0规范的包合并
+      // import: $import的类Java包合并方式
+      "js_package_depend_style": "default",
+      // CSS的编译方式(支持扩展)，默认支持如下：
+      // default: 原生
+      // less: less编译
+      // sass: sass编译
+      "css_package_depend_style": "default",
+      // 设置js_cache或css_cache，其代码的合并只会执行一行，下次访问此文件时
+      // 将会从缓存中读取，适合用会配置仿真测试环境
+      "js_cache": false,
+      "css_cache": false,
+      // 设置JS或CSS的代码是否需要压缩
+      "css_compress": false,
+      "js_compress": false,
+      // 用于设置在解析CSS时，对CSS中的相对图片引用是否需要加版本号处理(如果设置为true，则会以此图片的md5值作为其版本号)
+      "css_image_version": false,
+      // 用于设置CSS或JS的文件编码格式
+      "css_charset": "utf-8",
+      "js_charset": "utf-8",
+      // 用于配置所支持的JS或CSS文件后缀
+      "js_file_type": ".js",
+      "css_file_type": ".css,.less,.scss",
+      // 用于针对性的打包，及配置后，只会对配置的路径进行文件打包，适用于代码上线
+      "js_compress_path": "/page/",
+      "css_compress_path": "/page/",
+      // 其上的附加参数，作用是对不符合上面规则的处理，默认为删除文件
+      "js_compress_path_clear": true,
+      "css_compress_path_clear": true,
+      // 用于设置编译后的文件格式，默认为true,及不管是SASS还是LESS，都可以通过.css后缀访问
+      "export_by_css_style": true,
+      // 用于配置，当同一目录的JS文件，其父级JS文件中已经合并过的JS文件，在其子级JS文件是否还需要合并(用于减少代码量)。
+      "unique_js": false,
+      // 配置如上功能。参数如下
+      // 第一个参数，用于配置应用的目录
+      // 第二个参数，用于是否应用配置目录下的子JS文件，默认为否
+      "unique_js_options": ["/page/", 0],
+      // 内置projs的公共包目录
+      "pro_module_path": "",
+      // 在打包时，当出现错误，是否忽略
+      "remove_error_file": false,
+      // 是否开启gzip
+      "gzip": true
+ }

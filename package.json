@@ -1,0 +1,38 @@
+{
+	"name": "you",
+	"description": "一个简单，灵活的前端开发环境构建工具。只需简单的配置，就可以快速搭建一个功能众多的前端开发环境。",
+	"author": {
+		"name": "Stri",
+		"email": "stri.vip@gmail.com",
+		"url": "http://weibo/stri"
+	},
+	"contributors": [{
+		"name": "Stri",
+		"email": "stri.vip@gmail.com"
+	}],
+	"bugs": {
+		"email": "stri.vip@gmail.com",
+		"web": "https://github.com/stri/you/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/stri/you.git"
+	},
+	"version": "0.0.2",
+	"main": "./index.js",
+	"bin": {
+		"you": "./bin/you"
+	},
+	"engines": {
+		"node": ">=0.4.0"
+	},
+	"dependencies": {
+		"less": "1.5.1",
+		"mkdirp": "0.3.5",
+		"node-sass": "0.7.0",
+		"uglify-js": "2.3.6",
+		"optimist": "0.5.0",
+		"express": "3.2.5",
+		"clean-css": "1.1.3"
+	}
+}

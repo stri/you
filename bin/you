@@ -1,0 +1,116 @@
+#!/usr/bin/env node
+var you = require('../index');
+var optimist = require('optimist');
+var argv = optimist.argv;
+var configObject = you.getConfigObject(),
+  pluginObject = you.getPluginObject(),
+  configTask = configObject.task;
+
+// 设置配置
+configTask.on('setConfig', function(data) {
+  if (data.code == 2) {
+    console.log('\n  Error: ' + data.msg + '\n');
+  } else if (data.code == 1) {
+    console.log('设置' + data.data.name + '成功！');
+  }
+});
+
+var keys = Object.keys(argv),
+  len = 0,
+  type = argv._[0],
+  content = argv._[1];
+
+// 安装插件
+if ( type == 'install') {
+  if (content){
+    if (argv.c || argv.config){
+      return configObject.installConfig(content);
+    }else {
+      return pluginObject.install(content);
+    }
+  }else {
+    argv = optimist.usage('Usage: $0 install plugin to extend you.')
+      .demand(2)
+      .alias('c', 'config')
+      .describe('c', 'install config')
+      .argv
+  }
+}
+
+// 卸载插件
+if (type == 'uninstall'){
+  if (content){
+    pluginObject.uninstall(content);
+  }else {
+    console.log('lost plugin\'s name.')
+  }
+  return;
+}
+
+// 获取插件列表
+if (type == 'installed'){
+  return console.log(pluginObject.getAll());
+}
+
+// 其它配置
+if (keys.length > 2) {
+  // 配置相关
+  if (argv.c || argv.config){
+    if (argv._.length == 0){
+      configObject.getConfig(function(conf) {
+        console.log('\n' + JSON.stringify(conf, null, true).replace(/{|}/gi, '  ').replace(/\,\"/gi, '\n  "') + '\n');
+      });
+    }else if (argv._.length == 1){
+      configObject.getConfig(argv._[0], function(value) {
+        console.log(value);
+      });
+    }else {
+      configObject.setConfig(argv._[0], argv._[1]);
+    }
+    return;
+  }
+
+  // 远行服务
+  if (argv.r || argv.run){
+    return you.start(0);
+  }
+
+  // 获取版本号
+  if (argv.v || argv.version){
+    return console.log(you.getVersion());
+  }
+
+  // 获取帮助
+  if (argv.h || argv.help){
+    return console.log('The help document: https://github.com/stri/you\n');
+  }
+
+  // 部署
+  if (argv.d || argv.deploy){
+    len = 2;
+    argv = optimist.usage('Usage: $0 [from] [to] -d[--deploy] -u[--username] xx -p[--password] xx')
+      .demand(len)
+      .alias('d', 'deploy')
+      .describe('d', 'Deploy the project.')
+      .alias('u', 'username')
+      .describe('u', 'Your Svn or Git username.')
+      .alias('p', 'password')
+      .describe('p', 'Your Svn or Git password.')
+      .argv;
+    return you.compress(argv._[0], argv._[1], argv.u || argv.username, argv.p || argv.password, argv.force);
+  }
+}
+
+argv = optimist.usage('Usage: $0 ')
+  .demand(1)
+  .alias('r', 'run')
+  .describe('r', 'run the server.')
+  .alias('d', 'deploy')
+  .describe('d', 'deploy the project.')
+  .alias('c', 'config')
+  .describe('c', 'set or get the config.')
+  .alias('v', 'version')
+  .describe('v', 'the version.')
+  .alias('h', 'help')
+  .describe('h', 'Doc: https://github.com/stri/you')
+  .argv;
